@@ -7,13 +7,14 @@ describe("Field Printer", function() {
   fieldPrinter = new FieldPrinter();
 
   describe("#print", function() {
-    it("returns an X if a field has been taken", function() {
+    it("returns an X in pipes if a field has been taken", function() {
       fieldMock.isTaken.and.returnValue(true);
-      expect(fieldPrinter.print(fieldMock)).toEqual('X');
+      expect(fieldPrinter.print(fieldMock)).toEqual('|X|');
     });
-    it("returns a string with one space if a field has not been taken", function() {
+    
+    it("returns a space in pipes if a field has not been taken", function() {
       fieldMock.isTaken.and.returnValue(false);
-      expect(fieldPrinter.print(fieldMock)).toEqual(' ');
+      expect(fieldPrinter.print(fieldMock)).toEqual('| |');
     });
   });
 });

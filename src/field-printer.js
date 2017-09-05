@@ -5,7 +5,7 @@
 
   FieldPrinter.prototype = {
     print: function(field) {
-      return field.isTaken() ? 'X' : ' ';
+      return field.isTaken() ? '|X|' : '| |';
     }
   };
 
