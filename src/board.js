@@ -11,11 +11,11 @@
     lines: function() {
       return this._lines;
     },
-    line: function(lineNumber) {
-      return this._lines[lineNumber];
-    },
     takeField: function(lineNumber, fieldNumber) {
       return this.line(lineNumber).takeField(fieldNumber);
+    },
+    line: function(lineNumber) {
+      return this._lines[lineNumber];
     }
   };
 

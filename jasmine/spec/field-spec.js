@@ -9,16 +9,17 @@ describe("Field", function() {
     expect(field.isTaken()).toEqual(false);
   });
 
-  it("successful take returns true", function() {
-    expect(field.take()).toEqual(true);
-  });
+  describe("#take", function() {
+    it("successful take returns true", function() {
+      expect(field.take()).toEqual(true);
+    });
 
-  it("take updates taken status", function() {
-    expect(field.isTaken()).toEqual(true);
-  });
+    it("take updates taken status", function() {
+      expect(field.isTaken()).toEqual(true);
+    });
 
-  it("cannot be taken twice", function() {
-    field.take();
-    expect(field.take()).toEqual(false);
+    it("returns false if a field is already taken", function() {
+      expect(field.take()).toEqual(false);
+    });
   });
 });

@@ -25,8 +25,10 @@ describe("Line", function() {
     }
   });
 
-  it("informs a field object that it has been taken", function() {
-    line.takeField(0);
-    expect(line.field(0).takeCallCount).toEqual(1);
+  describe("#takeField", function() {
+    it("informs a field object that it has been taken", function() {
+      line.takeField(0);
+      expect(line.field(0).takeCallCount).toEqual(1);
+    });
   });
 });

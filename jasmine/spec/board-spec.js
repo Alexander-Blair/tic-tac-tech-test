@@ -26,10 +26,12 @@ describe("Board", function() {
     }
   });
 
-  it("informs a line to take a specific field", function() {
-    randomLine = Math.round(Math.random(2));
-    randomField = Math.round(Math.random(2));
-    board.takeField(randomLine, randomField);
-    expect(board.line(randomLine).takeFieldArgument).toEqual(randomField);
+  describe("#takeField", function() {
+    it("informs a line to take a specific field", function() {
+      randomLine = randomBetween(0, 2);
+      randomField = randomBetween(0, 2);
+      board.takeField(randomLine, randomField);
+      expect(board.line(randomLine).takeFieldArgument).toEqual(randomField);
+    });
   });
 });
