@@ -1,4 +1,6 @@
 describe("Field", function() {
+  'use strict';
+
   var field;
 
   field = new Field();

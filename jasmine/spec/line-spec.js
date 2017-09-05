@@ -1,4 +1,6 @@
 describe("Line", function() {
+  'use strict';
+
   var line;
 
   function FieldMock() {
@@ -19,7 +21,7 @@ describe("Line", function() {
 
   it("holds an array of field objects based on the constructor passed in", function() {
     for(var i = 0; i < 3; i++) {
-      expect(line.fields()[i] instanceof FieldMock).toBe(true);
+      expect(line.field(i) instanceof FieldMock).toBe(true);
     }
   });
 
