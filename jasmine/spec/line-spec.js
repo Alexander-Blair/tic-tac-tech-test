@@ -1,7 +1,15 @@
 describe("Line", function() {
   var line;
 
-  function FieldMock() {}
+  function FieldMock() {
+    this.takeCallCount = 0;
+  }
+
+  FieldMock.prototype = {
+    take: function() {
+      this.takeCallCount++;
+    }
+  };
 
   line = new Line(FieldMock);
 
@@ -13,5 +21,10 @@ describe("Line", function() {
     for(var i = 0; i < 3; i++) {
       expect(line.fields()[i] instanceof FieldMock).toBe(true);
     }
+  });
+
+  it("informs a field object that it has been taken", function() {
+    line.takeField(0);
+    expect(line.field(0).takeCallCount).toEqual(1);
   });
 });

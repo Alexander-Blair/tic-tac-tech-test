@@ -10,6 +10,12 @@
   Line.prototype = {
     fields: function() {
       return this._fields;
+    },
+    field: function(fieldNumber) {
+      return this._fields[fieldNumber];
+    },
+    takeField: function(fieldNumber) {
+      return this.field(fieldNumber).take();
     }
   };
 
