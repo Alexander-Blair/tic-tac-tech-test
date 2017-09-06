@@ -1,29 +1,25 @@
 describe("Player", function() {
   'use strict';
 
-  var player, playerSymbol, mockFieldList;
+  var player, playerSymbol, mockScoreTracker;
 
-  mockFieldList = jasmine.createSpyObj('fieldList', ['fields', 'add']);
+  mockScoreTracker = jasmine.createSpyObj('scoreTracker', ['hasWon', 'add']);
   playerSymbol = "X";
-  player = new Player(playerSymbol, mockFieldList);
+  player = new Player(playerSymbol, mockScoreTracker);
 
   it("is initialized with its own symbol", function() {
     expect(player.symbol()).toEqual(playerSymbol);
   });
 
-  it("is initialized with its own field list", function() {
-    expect(player.fieldList()).toEqual(mockFieldList);
-  });
-
-  describe("#addField", function() {
+  describe("#updateScore", function() {
     var randomLine, randomField;
 
     randomLine = randomBetween(0, 2);
     randomField = randomBetween(0, 2);
 
     it("asks the field list to store a field reference", function() {
-      player.addField(randomLine, randomField);
-      expect(mockFieldList.add).toHaveBeenCalledWith(randomLine, randomField);
+      player.updateScore(randomLine, randomField);
+      expect(mockScoreTracker.add).toHaveBeenCalledWith(randomLine, randomField);
     });
   });
 });

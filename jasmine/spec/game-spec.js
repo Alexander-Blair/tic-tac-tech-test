@@ -3,8 +3,8 @@ describe("Game", function() {
 
   var game, mockBoard, mockPlayerOne, mockPlayerTwo, mockPlayers, mockTurnCounter;
 
-  mockPlayerOne = jasmine.createSpyObj('player', ['symbol', 'addField']);
-  mockPlayerTwo = jasmine.createSpyObj('player', ['symbol', 'addField']);
+  mockPlayerOne = jasmine.createSpyObj('player', ['symbol', 'updateScore', 'hasWon']);
+  mockPlayerTwo = jasmine.createSpyObj('player', ['symbol', 'updateScore', 'hasWon']);
   mockPlayers = { 0: mockPlayerOne, 1: mockPlayerTwo };
   mockTurnCounter = jasmine.createSpyObj('turnCounter', ['turnNumber', 'increment']);
   mockBoard = jasmine.createSpyObj('board', ['takeField', 'isFull']);
@@ -59,7 +59,7 @@ describe("Game", function() {
     });
 
     it("asks the current player to call add field function", function() {
-      expect(mockPlayerOne.addField)
+      expect(mockPlayerOne.updateScore)
         .toHaveBeenCalledWith(randomLine, randomField);
     });
 
@@ -69,16 +69,22 @@ describe("Game", function() {
   });
 
   describe("#isOver", function() {
-    it("returns true when ninth turn has been completed", function() {
-      mockTurnCounter.turnNumber.and.returnValue(9);
+    it("returns false if no player has won", function() {
+      mockPlayerOne.hasWon.and.returnValue(false);
+      expect(game.isOver()).toEqual(false);
+    });
+
+    it("returns true if a player has won", function() {
+      mockTurnCounter.turnNumber.and.returnValue(0);
+      mockPlayerOne.hasWon.and.returnValue(true);
+      game.checkIfOver();
       expect(game.isOver()).toEqual(true);
     });
 
-    it("returns false if less than five turns have been completed", function() {
-      var randomNumberBelowFive = randomBetween(0, 4);
-
-      mockTurnCounter.turnNumber.and.returnValue(randomNumberBelowFive);
-      expect(game.isOver()).toEqual(false);
+    it("returns true when ninth turn has been completed", function() {
+      mockTurnCounter.turnNumber.and.returnValue(9);
+      game.checkIfOver();
+      expect(game.isOver()).toEqual(true);
     });
   });
 });

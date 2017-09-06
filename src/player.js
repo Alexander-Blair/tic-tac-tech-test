@@ -1,19 +1,19 @@
 (function(exports) {
 
-  function Player(symbol, fieldList) {
+  function Player(symbol, scoreTracker) {
     this._symbol = symbol;
-    this._fieldList = fieldList;
+    this._scoreTracker = scoreTracker;
   }
 
   Player.prototype = {
-    addField: function(line, field) {
-      this._fieldList.add(line, field);
+    updateScore: function(line, field) {
+      this._scoreTracker.add(line, field);
+    },
+    hasWon: function() {
+      return this._scoreTracker.hasWon();
     },
     symbol: function() {
       return this._symbol;
-    },
-    fieldList: function() {
-      return this._fieldList;
     }
   };
 

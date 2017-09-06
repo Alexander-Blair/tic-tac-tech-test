@@ -17,13 +17,13 @@
     add: function(row, column) {
       this.increment('_rows', row);
       this.increment('_columns', column);
-      this.incrementDiagonal(row, column);
+      this.incrementDiagonals(row, column);
       this.updateWinStatus(row, column);
     },
     increment: function(property, number) {
       this[property][number] = ++this[property][number] || 1;
     },
-    incrementDiagonal: function(row, column) {
+    incrementDiagonals: function(row, column) {
       if(row === column) this._diag++;
       if(row + column === this._winScore - 1) {
         this._reverseDiag++;
