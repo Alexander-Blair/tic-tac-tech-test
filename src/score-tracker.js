@@ -21,7 +21,7 @@
       this.updateWinStatus(row, column);
     },
     increment: function(property, number) {
-      this[property][number] = this[property][number]++ || 1;
+      this[property][number] = ++this[property][number] || 1;
     },
     incrementDiagonal: function(row, column) {
       if(row === column) this._diag++;
