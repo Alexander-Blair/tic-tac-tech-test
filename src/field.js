@@ -3,21 +3,13 @@
 
   function Field() {
     this._taken = false;
-    this._symbol = " ";
   }
 
   Field.prototype = {
-    take: function(symbol) {
+    take: function() {
       if(this.isTaken()) { return false; }
-      this.setSymbol(symbol);
       this._taken = true;
       return true;
-    },
-    setSymbol: function(symbol) {
-      this._symbol = symbol;
-    },
-    symbol: function() {
-      return this._symbol;
     },
     isTaken: function() {
       return this._taken;

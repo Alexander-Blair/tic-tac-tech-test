@@ -15,33 +15,30 @@
     player: function(number) {
       return this._players[number];
     },
+    currentPlayer: function() {
+      var playerNumber = isEven(this._turnCounter.turnNumber()) ? 0 : 1;
+      return this.player(playerNumber);
+    },
     play: function(lineNumber, fieldNumber) {
       if(this.isOver()) { return "Game Over!"; }
-      var symbol = this.currentPlayer().symbol();
-
-      if(this.board().takeField(lineNumber, fieldNumber, symbol)) {
-        return this.processTurn(lineNumber, fieldNumber);
+      if(this.board().takeField(lineNumber, fieldNumber)) {
+        this.processTurn(lineNumber, fieldNumber);
       } else { return "This field is taken"; }
+      if(this.isOver()) { return "Player " + this._winner.symbol() + " is the winner!"; }
     },
     processTurn: function(lineNumber, fieldNumber) {
       this.currentPlayer().updateScore(lineNumber, fieldNumber);
       this.checkIfOver();
       this._turnCounter.increment();
-      if(this.isOver()) { return "Player " + this._winner.symbol() + " is the winner!"; }
     },
     checkIfOver: function() {
-      var turnNumber = this._turnCounter.turnNumber();
-      if(turnNumber >= 8 || this.currentPlayer().hasWon()) {
+      if(this._turnCounter.turnNumber() >= 8 || this.currentPlayer().hasWon()) {
         this._winner = this.currentPlayer();
         this._gameOver = true;
       }
     },
     isOver: function() {
       return this._gameOver;
-    },
-    currentPlayer: function() {
-      var playerNumber = isEven(this._turnCounter.turnNumber()) ? 0 : 1;
-      return this.player(playerNumber);
     }
   };
 

@@ -45,7 +45,7 @@ describe("Game", function() {
     randomLine = randomBetween(0, 2);
     randomField = randomBetween(0, 2);
 
-    beforeEach(function() {
+    beforeAll(function() {
       mockTurnCounter.turnNumber.and.returnValue(0);
       mockBoard.takeField.and.returnValue(true);
       game.play(randomLine, randomField);
@@ -55,20 +55,29 @@ describe("Game", function() {
       var randomEvenNumber = randomBetween(0, 4) * 2;
 
       expect(mockBoard.takeField)
-        .toHaveBeenCalledWith(randomLine, randomField, mockPlayerOne.symbol());
+      .toHaveBeenCalledWith(randomLine, randomField);
     });
 
     it("asks the current player to call add field function", function() {
       expect(mockPlayerOne.updateScore)
-        .toHaveBeenCalledWith(randomLine, randomField);
+      .toHaveBeenCalledWith(randomLine, randomField);
     });
 
     it("asks the turn counter to move to the next round", function() {
       expect(mockTurnCounter.increment).toHaveBeenCalled();
     });
+    it("gives a win message if a player has won", function() {
+      mockPlayerOne.hasWon.and.returnValue(true);
+      mockPlayerOne.symbol.and.returnValue("X");
+      expect(game.play()).toEqual("Player X is the winner!");
+    });
   });
 
   describe("#isOver", function() {
+    beforeEach(function() {
+      game._gameOver = false;
+    });
+
     it("returns false if no player has won", function() {
       mockPlayerOne.hasWon.and.returnValue(false);
       expect(game.isOver()).toEqual(false);

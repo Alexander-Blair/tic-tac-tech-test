@@ -14,8 +14,8 @@
     lines: function() {
       return this._lines;
     },
-    takeField: function(lineNumber, fieldNumber, symbol) {
-      return this.line(lineNumber).takeField(fieldNumber, symbol);
+    takeField: function(lineNumber, fieldNumber) {
+      return this.line(lineNumber).takeField(fieldNumber);
     }
   };
 

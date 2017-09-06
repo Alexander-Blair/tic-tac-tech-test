@@ -6,8 +6,8 @@ describe("Board", function() {
   function LineMock() {}
 
   LineMock.prototype = {
-    takeField: function(fieldNumber, symbol) {
-      this.takeFieldArguments = [fieldNumber, symbol];
+    takeField: function(fieldNumber) {
+      this.takeFieldArguments = fieldNumber;
     }
   };
 
@@ -25,15 +25,14 @@ describe("Board", function() {
 
   describe("#takeField", function() {
     it("asks line object to call takeField with field number and symbol", function() {
-      var randomLine, randomField, symbol;
+      var randomLine, randomField;
 
       randomLine = randomBetween(0, 2);
       randomField = randomBetween(0, 2);
-      symbol = "X";
 
-      board.takeField(randomLine, randomField, symbol);
+      board.takeField(randomLine, randomField);
       expect(board.line(randomLine).takeFieldArguments)
-        .toEqual([randomField, symbol]);
+        .toEqual(randomField);
     });
   });
 });
