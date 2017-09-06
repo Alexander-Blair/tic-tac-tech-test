@@ -3,6 +3,7 @@
 
   function Field() {
     this._taken = false;
+    this._symbol = " ";
   }
 
   Field.prototype = {

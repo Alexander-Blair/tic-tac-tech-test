@@ -3,18 +3,15 @@ describe("Field Printer", function() {
 
   var fieldPrinter, fieldMock;
 
-  fieldMock = jasmine.createSpyObj('field', ['isTaken']);
+  fieldMock = jasmine.createSpyObj('field', ['isTaken', 'symbol']);
   fieldPrinter = new FieldPrinter();
 
   describe("#print", function() {
-    it("returns an X in pipes if a field has been taken", function() {
-      fieldMock.isTaken.and.returnValue(true);
-      expect(fieldPrinter.print(fieldMock)).toEqual('|X|');
-    });
-    
-    it("returns a space in pipes if a field has not been taken", function() {
-      fieldMock.isTaken.and.returnValue(false);
-      expect(fieldPrinter.print(fieldMock)).toEqual('| |');
+    var symbol = "O";
+
+    it("returns field's symbol with pipes either side", function() {
+      fieldMock.symbol.and.returnValue(symbol);
+      expect(fieldPrinter.print(fieldMock)).toEqual("|" + symbol + "|");
     });
   });
 });

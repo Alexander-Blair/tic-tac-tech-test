@@ -9,6 +9,10 @@ describe("Field", function() {
     expect(field.isTaken()).toEqual(false);
   });
 
+  it("is created with symbol as just a space", function() {
+    expect(field.symbol()).toEqual(" ");
+  });
+
   describe("#take", function() {
     var symbol = "X";
 
