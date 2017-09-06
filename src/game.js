@@ -20,7 +20,7 @@
       }
     },
     isOver: function() {
-      return this._board.isFull();
+      return this._turnCounter.turnNumber() > 8;
     },
     currentPlayer: function() {
       var playerNumber = isEven(this._turnCounter.turnNumber()) ? 0 : 1;

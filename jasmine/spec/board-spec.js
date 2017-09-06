@@ -11,8 +11,7 @@ describe("Board", function() {
     takeField: function(fieldNumber) {
       this.takeFieldCallCount++;
       this.takeFieldArgument = fieldNumber;
-    },
-    isFull: function() { return false; }
+    }
   };
 
   board = new Board(LineMock);
@@ -33,19 +32,6 @@ describe("Board", function() {
       randomField = randomBetween(0, 2);
       board.takeField(randomLine, randomField);
       expect(board.line(randomLine).takeFieldArgument).toEqual(randomField);
-    });
-  });
-
-  describe("#isFull", function() {
-    it("checks if the board has fields to take", function() {
-      expect(board.isFull()).not.toBe(true);
-    });
-
-    it("returns true when the board is full", function() {
-      LineMock.prototype.isFull = function() {
-        return true;
-      };
-      expect(board.isFull()).toBe(true);
     });
   });
 });

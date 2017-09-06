@@ -34,19 +34,4 @@ describe("Line", function() {
       expect(line.field(0).takeCallCount).toEqual(1);
     });
   });
-
-  describe("#isFull", function() {
-    describe("checks whether all fields are taken", function() {
-      it("does not return true if not all fields are taken", function() {
-        expect(line.isFull()).not.toEqual(true);
-      });
-
-      it("returns true if all fields are taken", function() {
-        FieldMock.prototype.isTaken = function() {
-          return true;
-        };
-        expect(line.isFull()).toEqual(true);
-      });
-    });
-  });
 });

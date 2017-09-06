@@ -16,16 +16,6 @@
     },
     takeField: function(lineNumber, fieldNumber) {
       return this.line(lineNumber).takeField(fieldNumber);
-    },
-    isFull: function() {
-      if(this.lineStatusArray().includes(false)) {
-        return false;
-      } else { return true; }
-    },
-    lineStatusArray: function() {
-      return this.lines().map(function(line) {
-        return line.isFull();
-      });
     }
   };
 

@@ -14,7 +14,7 @@ describe("Game", function() {
 
   describe("#player", function() {
     var randomPlayerNumber = randomBetween(0, 1);
-    
+
     it("returns a player object", function() {
       expect(game.player(randomPlayerNumber))
         .toEqual(mockPlayers[randomPlayerNumber]);
@@ -31,7 +31,7 @@ describe("Game", function() {
     });
 
     randomOddNumber = randomEvenNumber + 1;
-    it("returns second player if turn is even", function() {
+    it("returns second player if turn is odd", function() {
       mockTurnCounter.turnNumber.and.returnValue(randomOddNumber);
       expect(game.currentPlayer()).toEqual(mockPlayers[1]);
     });
@@ -56,8 +56,15 @@ describe("Game", function() {
   });
 
   describe("#isOver", function() {
-    it("game is over when the board is full", function() {
-      mockBoard.isFull.and.returnValue(true);
+    it("game is not over when turn number is less than 9", function() {
+      var randomNumberBelowNine = randomBetween(0, 8);
+
+      mockTurnCounter.turnNumber.and.returnValue(randomNumberBelowNine);
+      expect(game.isOver()).toEqual(false);
+    });
+
+    it("game is over when ninth turn has been completed", function() {
+      mockTurnCounter.turnNumber.and.returnValue(9);
       expect(game.isOver()).toEqual(true);
     });
   });
