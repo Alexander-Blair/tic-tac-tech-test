@@ -10,6 +10,9 @@ describe("Line", function() {
   FieldMock.prototype = {
     take: function() {
       this.takeCallCount++;
+    },
+    isTaken: function() {
+      return false;
     }
   };
 
@@ -29,6 +32,21 @@ describe("Line", function() {
     it("informs a field object that it has been taken", function() {
       line.takeField(0);
       expect(line.field(0).takeCallCount).toEqual(1);
+    });
+  });
+
+  describe("#isFull", function() {
+    describe("checks whether all fields are taken", function() {
+      it("does not return true if not all fields are taken", function() {
+        expect(line.isFull()).not.toEqual(true);
+      });
+
+      it("returns true if all fields are taken", function() {
+        FieldMock.prototype.isTaken = function() {
+          return true;
+        };
+        expect(line.isFull()).toEqual(true);
+      });
     });
   });
 });

@@ -1,8 +1,10 @@
 (function(exports) {
   'use strict';
 
-  function Game(board) {
+  function Game(board, playerOne, playerTwo) {
     this._board = board;
+    this._playerOne = playerOne;
+    this._playerTwo = playerTwo;
   }
 
   Game.prototype = {
@@ -10,7 +12,10 @@
       return this._board;
     },
     takeField: function(lineNumber, fieldNumber) {
-      this.board().takeField(lineNumber, fieldNumber);
+      return this.board().takeField(lineNumber, fieldNumber);
+    },
+    isOver: function() {
+      return this._board.isFull();
     }
   };
 

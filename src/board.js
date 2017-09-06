@@ -8,14 +8,24 @@
   }
 
   Board.prototype = {
+    line: function(lineNumber) {
+      return this._lines[lineNumber];
+    },
     lines: function() {
       return this._lines;
     },
     takeField: function(lineNumber, fieldNumber) {
       return this.line(lineNumber).takeField(fieldNumber);
     },
-    line: function(lineNumber) {
-      return this._lines[lineNumber];
+    isFull: function() {
+      if(!this.lineStatusArray().includes(false)) {
+        return true;
+      }
+    },
+    lineStatusArray: function() {
+      return this.lines().map(function(line) {
+        return line.isFull();
+      });
     }
   };
 

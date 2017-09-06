@@ -3,7 +3,7 @@ describe("Game", function() {
 
   var game, mockBoard, randomLine, randomField;
 
-  mockBoard = jasmine.createSpyObj('board', ['takeField']);
+  mockBoard = jasmine.createSpyObj('board', ['takeField', 'isFull']);
   game = new Game(mockBoard);
 
   it("is created with a board", function() {
@@ -16,6 +16,13 @@ describe("Game", function() {
       randomField = randomBetween(0, 2);
       game.takeField(randomLine, randomField);
       expect(mockBoard.takeField).toHaveBeenCalledWith(randomLine, randomField);
+    });
+  });
+
+  describe("#isOver", function() {
+    it("game is over when the board is full", function() {
+      mockBoard.isFull.and.returnValue(true);
+      expect(game.isOver()).toEqual(true);
     });
   });
 });

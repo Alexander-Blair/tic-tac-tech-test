@@ -16,6 +16,16 @@
     },
     takeField: function(fieldNumber) {
       return this.field(fieldNumber).take();
+    },
+    isFull: function() {
+      if(this.fieldStatusArray().includes(false)) {
+        return false;
+      } else { return true; }
+    },
+    fieldStatusArray: function() {
+      return this.fields().map(function(field) {
+        return field.isTaken();
+      });
     }
   };
 
