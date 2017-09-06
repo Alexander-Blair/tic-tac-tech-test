@@ -12,7 +12,7 @@
       return this._fields;
     },
     field: function(fieldNumber) {
-      return this._fields[fieldNumber];
+      return this.fields()[fieldNumber];
     },
     takeField: function(fieldNumber) {
       return this.field(fieldNumber).take();

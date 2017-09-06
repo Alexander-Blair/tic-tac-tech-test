@@ -1,10 +1,8 @@
 (function(exports) {
   'use strict';
 
-  function Game(board, playerOne, playerTwo) {
+  function Game(board) {
     this._board = board;
-    this._playerOne = playerOne;
-    this._playerTwo = playerTwo;
   }
 
   Game.prototype = {

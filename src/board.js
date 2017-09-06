@@ -9,7 +9,7 @@
 
   Board.prototype = {
     line: function(lineNumber) {
-      return this._lines[lineNumber];
+      return this.lines()[lineNumber];
     },
     lines: function() {
       return this._lines;
@@ -18,9 +18,9 @@
       return this.line(lineNumber).takeField(fieldNumber);
     },
     isFull: function() {
-      if(!this.lineStatusArray().includes(false)) {
-        return true;
-      }
+      if(this.lineStatusArray().includes(false)) {
+        return false;
+      } else { return true; }
     },
     lineStatusArray: function() {
       return this.lines().map(function(line) {
