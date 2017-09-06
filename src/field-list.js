@@ -10,7 +10,7 @@
       return this._fields;
     },
     add: function(line, field) {
-      this._fields.push([line, field]);
+      this._fields.push({ 'row': line, 'column': field });
     }
   };
 

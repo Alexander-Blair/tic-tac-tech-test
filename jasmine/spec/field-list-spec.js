@@ -9,7 +9,7 @@ describe("Field List", function() {
 
   describe("#add", function() {
     var randomLine, randomField;
-    
+
     randomLine = randomBetween(0, 2);
     randomField = randomBetween(0, 2);
 
@@ -18,7 +18,7 @@ describe("Field List", function() {
     });
 
     it("adds a reference to a field on a line to the array", function() {
-      expect(fieldList.fields()[0]).toEqual([randomLine, randomField]);
+      expect(fieldList.fields()[0]).toEqual({ 'row': randomLine, 'column': randomField });
     });
   });
 });
