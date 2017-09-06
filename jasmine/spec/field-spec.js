@@ -10,16 +10,54 @@ describe("Field", function() {
   });
 
   describe("#take", function() {
-    it("successful take returns true", function() {
-      expect(field.take()).toEqual(true);
+    var symbol = "X";
+
+    beforeEach(function() {
+      spyOn(field, 'setSymbol');
+      field.setSymbol.and.stub();
+    });
+    describe("successful take", function() {
+      var result;
+
+      it("calls setSymbol function", function() {
+        result = field.take();
+        expect(field.setSymbol.calls.count()).toEqual(1);
+      });
+
+      it("returns true", function() {
+        expect(result).toEqual(true);
+      });
+
+      it("updates taken status", function() {
+        expect(field.isTaken()).toEqual(true);
+      });
     });
 
-    it("take updates taken status", function() {
-      expect(field.isTaken()).toEqual(true);
-    });
+    describe("unsuccessful take (field already taken)", function() {
+      var result;
 
-    it("returns false if a field is already taken", function() {
-      expect(field.take()).toEqual(false);
+      beforeEach(function() {
+        field.take();
+      });
+
+      it("doesn't call setSymbol function", function() {
+        result = field.take();
+        expect(field.setSymbol.calls.count()).toEqual(0);
+      });
+
+      it("returns false", function() {
+        expect(result).toEqual(false);
+      });
+    });
+  });
+  describe("#setSymbol", function() {
+    var symbol = "X";
+
+    beforeEach(function() {
+      field.setSymbol(symbol);
+    });
+    it("sets the field's symbol to the value passed in", function() {
+      expect(field.symbol()).toEqual(symbol);
     });
   });
 });

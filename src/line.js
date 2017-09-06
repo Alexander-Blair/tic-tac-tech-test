@@ -14,8 +14,8 @@
     field: function(fieldNumber) {
       return this.fields()[fieldNumber];
     },
-    takeField: function(fieldNumber) {
-      return this.field(fieldNumber).take();
+    takeField: function(fieldNumber, symbol) {
+      return this.field(fieldNumber).take(symbol);
     }
   };
 

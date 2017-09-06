@@ -1,9 +1,11 @@
 describe("Game", function() {
   'use strict';
 
-  var game, mockBoard, mockPlayers, mockTurnCounter;
+  var game, mockBoard, mockPlayerOne, mockPlayerTwo, mockPlayers, mockTurnCounter;
 
-  mockPlayers = { 0: {}, 1: {} };
+  mockPlayerOne = jasmine.createSpyObj('player', ['symbol']);
+  mockPlayerTwo = jasmine.createSpyObj('player', ['symbol']);
+  mockPlayers = { 0: mockPlayerOne, 1: mockPlayerTwo };
   mockTurnCounter = jasmine.createSpyObj('turnCounter', ['turnNumber', 'increment']);
   mockBoard = jasmine.createSpyObj('board', ['takeField', 'isFull']);
   game = new Game(mockBoard, mockPlayers, mockTurnCounter);
@@ -15,7 +17,7 @@ describe("Game", function() {
   describe("#player", function() {
     var randomPlayerNumber = randomBetween(0, 1);
 
-    it("returns a player object", function() {
+    it("returns player based on the number passed in", function() {
       expect(game.player(randomPlayerNumber))
         .toEqual(mockPlayers[randomPlayerNumber]);
     });
@@ -25,15 +27,15 @@ describe("Game", function() {
     var randomEvenNumber, randomOddNumber;
 
     randomEvenNumber = randomBetween(0, 4) * 2;
-    it("returns first player if turn is even", function() {
+    it("returns first player if turn number is even", function() {
       mockTurnCounter.turnNumber.and.returnValue(randomEvenNumber);
-      expect(game.currentPlayer()).toEqual(mockPlayers[0]);
+      expect(game.currentPlayer()).toEqual(mockPlayerOne);
     });
 
     randomOddNumber = randomEvenNumber + 1;
-    it("returns second player if turn is odd", function() {
+    it("returns second player if turn number is odd", function() {
       mockTurnCounter.turnNumber.and.returnValue(randomOddNumber);
-      expect(game.currentPlayer()).toEqual(mockPlayers[1]);
+      expect(game.currentPlayer()).toEqual(mockPlayerTwo);
     });
   });
 
@@ -44,8 +46,11 @@ describe("Game", function() {
     randomField = randomBetween(0, 2);
 
     it("can ask the board to take a specific field", function() {
+      var randomEvenNumber = randomBetween(0, 4) * 2;
+
       game.play(randomLine, randomField);
-      expect(mockBoard.takeField).toHaveBeenCalledWith(randomLine, randomField);
+      expect(mockBoard.takeField)
+        .toHaveBeenCalledWith(randomLine, randomField, mockPlayerOne.symbol());
     });
 
     it("asks the turn counter to move to the next round", function() {

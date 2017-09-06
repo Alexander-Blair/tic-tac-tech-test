@@ -15,7 +15,8 @@
       return this._players[number];
     },
     play: function(lineNumber, fieldNumber) {
-      if(this.board().takeField(lineNumber, fieldNumber)) {
+      var symbol = this.currentPlayer().symbol();
+      if(this.board().takeField(lineNumber, fieldNumber, symbol)) {
         this._turnCounter.increment();
       }
     },

@@ -1,16 +1,13 @@
 describe("Board", function() {
   'use strict';
 
-  var board, randomLine, randomField;
+  var board;
 
-  function LineMock() {
-    this.takeFieldCallCount = 0;
-  }
+  function LineMock() {}
 
   LineMock.prototype = {
-    takeField: function(fieldNumber) {
-      this.takeFieldCallCount++;
-      this.takeFieldArgument = fieldNumber;
+    takeField: function(fieldNumber, symbol) {
+      this.takeFieldArguments = [fieldNumber, symbol];
     }
   };
 
@@ -27,11 +24,16 @@ describe("Board", function() {
   });
 
   describe("#takeField", function() {
-    it("informs a line to take a specific field", function() {
+    it("asks line object to call takeField with field number and symbol", function() {
+      var randomLine, randomField, symbol;
+
       randomLine = randomBetween(0, 2);
       randomField = randomBetween(0, 2);
-      board.takeField(randomLine, randomField);
-      expect(board.line(randomLine).takeFieldArgument).toEqual(randomField);
+      symbol = "X";
+
+      board.takeField(randomLine, randomField, symbol);
+      expect(board.line(randomLine).takeFieldArguments)
+        .toEqual([randomField, symbol]);
     });
   });
 });

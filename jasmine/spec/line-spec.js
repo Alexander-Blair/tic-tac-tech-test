@@ -8,8 +8,9 @@ describe("Line", function() {
   }
 
   FieldMock.prototype = {
-    take: function() {
+    take: function(symbol) {
       this.takeCallCount++;
+      this.takeArgument = symbol;
     },
     isTaken: function() {
       return false;
@@ -29,9 +30,17 @@ describe("Line", function() {
   });
 
   describe("#takeField", function() {
-    it("informs a field object that it has been taken", function() {
-      line.takeField(0);
+    var symbol = "X";
+
+    beforeEach(function() {
+      line.takeField(0, symbol);
+    });
+    it("calls take on the field", function() {
       expect(line.field(0).takeCallCount).toEqual(1);
+    });
+
+    it("passes through a symbol as an argument", function() {
+      expect(line.field(0).takeArgument).toEqual(symbol);
     });
   });
 });

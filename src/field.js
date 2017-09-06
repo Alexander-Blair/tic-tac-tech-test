@@ -6,13 +6,20 @@
   }
 
   Field.prototype = {
-    isTaken: function() {
-      return this._taken;
-    },
-    take: function() {
+    take: function(symbol) {
       if(this.isTaken()) { return false; }
+      this.setSymbol(symbol);
       this._taken = true;
       return true;
+    },
+    setSymbol: function(symbol) {
+      this._symbol = symbol;
+    },
+    symbol: function() {
+      return this._symbol;
+    },
+    isTaken: function() {
+      return this._taken;
     }
   };
 
