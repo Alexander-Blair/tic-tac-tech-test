@@ -9,6 +9,7 @@ describe("Field List", function() {
 
   describe("#add", function() {
     var randomLine, randomField;
+    
     randomLine = randomBetween(0, 2);
     randomField = randomBetween(0, 2);
 

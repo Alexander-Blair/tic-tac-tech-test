@@ -17,11 +17,18 @@
     play: function(lineNumber, fieldNumber) {
       var symbol = this.currentPlayer().symbol();
       if(this.board().takeField(lineNumber, fieldNumber, symbol)) {
+        this.currentPlayer().addField(lineNumber, fieldNumber);
         this._turnCounter.increment();
       }
     },
     isOver: function() {
-      return this._turnCounter.turnNumber() > 8;
+      var turnNumber = this._turnCounter.turnNumber();
+
+      if(turnNumber < 5) {
+        return false;
+      } else if(turnNumber > 8) {
+        return true;
+      }
     },
     currentPlayer: function() {
       var playerNumber = isEven(this._turnCounter.turnNumber()) ? 0 : 1;

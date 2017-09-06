@@ -3,8 +3,8 @@ describe("Game", function() {
 
   var game, mockBoard, mockPlayerOne, mockPlayerTwo, mockPlayers, mockTurnCounter;
 
-  mockPlayerOne = jasmine.createSpyObj('player', ['symbol']);
-  mockPlayerTwo = jasmine.createSpyObj('player', ['symbol']);
+  mockPlayerOne = jasmine.createSpyObj('player', ['symbol', 'addField']);
+  mockPlayerTwo = jasmine.createSpyObj('player', ['symbol', 'addField']);
   mockPlayers = { 0: mockPlayerOne, 1: mockPlayerTwo };
   mockTurnCounter = jasmine.createSpyObj('turnCounter', ['turnNumber', 'increment']);
   mockBoard = jasmine.createSpyObj('board', ['takeField', 'isFull']);
@@ -45,32 +45,40 @@ describe("Game", function() {
     randomLine = randomBetween(0, 2);
     randomField = randomBetween(0, 2);
 
+    beforeEach(function() {
+      mockTurnCounter.turnNumber.and.returnValue(0);
+      mockBoard.takeField.and.returnValue(true);
+      game.play(randomLine, randomField);
+    });
+
     it("can ask the board to take a specific field", function() {
       var randomEvenNumber = randomBetween(0, 4) * 2;
 
-      game.play(randomLine, randomField);
       expect(mockBoard.takeField)
         .toHaveBeenCalledWith(randomLine, randomField, mockPlayerOne.symbol());
     });
 
+    it("asks the current player to call add field function", function() {
+      expect(mockPlayerOne.addField)
+        .toHaveBeenCalledWith(randomLine, randomField);
+    });
+
     it("asks the turn counter to move to the next round", function() {
-      mockBoard.takeField.and.returnValue(true);
-      game.play(randomLine, randomField);
       expect(mockTurnCounter.increment).toHaveBeenCalled();
     });
   });
 
   describe("#isOver", function() {
-    it("game is not over when turn number is less than 9", function() {
-      var randomNumberBelowNine = randomBetween(0, 8);
-
-      mockTurnCounter.turnNumber.and.returnValue(randomNumberBelowNine);
-      expect(game.isOver()).toEqual(false);
-    });
-
-    it("game is over when ninth turn has been completed", function() {
+    it("returns true when ninth turn has been completed", function() {
       mockTurnCounter.turnNumber.and.returnValue(9);
       expect(game.isOver()).toEqual(true);
+    });
+
+    it("returns false if less than five turns have been completed", function() {
+      var randomNumberBelowFive = randomBetween(0, 4);
+
+      mockTurnCounter.turnNumber.and.returnValue(randomNumberBelowFive);
+      expect(game.isOver()).toEqual(false);
     });
   });
 });
