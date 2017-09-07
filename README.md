@@ -1,5 +1,7 @@
 # Tic-Tac-Tech-Test
 
+The business logic for a game of Tic Tac Toe, written in Javascript.
+
 ### Cloning the repo
 
 ```sh
@@ -13,9 +15,10 @@ $ cd tic-tac-tech-test
 $ open jasmine/SpecRunner.html
 ```
 
-### How all objects would be created for a game
+### How a game would be set up
 ```javascript
-var players = { 0: new Player('X', new ScoreTracker()), 1: new Player('O', new ScoreTracker()) };
+var players = { 0: new Player('X', new ScoreTracker()),
+                1: new Player('O', new ScoreTracker()) };
 var board = new Board(Line, Field, 3);
 var game = new Game(board, players, new TurnCounter());
 // You could run these commands from Chrome developer tools console after opening the SpecRunner file.
