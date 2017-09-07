@@ -2,39 +2,39 @@
   'use strict';
 
   function ScoreTracker(boardSize) {
-    this._rows = {};
-    this._columns = {};
-    this._diag = 0;
-    this._reverseDiag = 0;
-    this._won = false;
+    this._rowScores = {};
+    this._columnScores = {};
+    this._diagScore = 0;
+    this._reverseDiagScore = 0;
     this._winScore = boardSize;
   }
 
   ScoreTracker.prototype = {
-    hasWon: function() {
-      return this._won;
+    hasWon: function(winScore) {
+      if(this.scoresArray.includes(winScore)) return true;
     },
     add: function(row, column) {
-      this.increment('_rows', row);
-      this.increment('_columns', column);
+      this.increment('_rowScores', row);
+      this.increment('_columnScores', column);
       this.incrementDiagonals(row, column);
-      this.updateWinStatus(row, column);
+      this.updateScoresArray(row, column);
     },
     increment: function(property, number) {
       this[property][number] = ++this[property][number] || 1;
     },
     incrementDiagonals: function(row, column) {
-      if(row === column) this._diag++;
+      if(row === column) this._diagScore++;
       if(row + column === this._winScore - 1) {
-        this._reverseDiag++;
+        this._reverseDiagScore++;
       }
     },
-    updateWinStatus: function(row, column) {
-      if(this._rows[row] === this._winScore ||
-         this._columns[column] === this._winScore ||
-         this._diag === this._winScore ||
-         this._reverseDiag === this._winScore)
-       this._won = true;
+    updateScoresArray: function(row, column) {
+      this.scoresArray = [
+        this._rowScores[row],
+        this._columnScores[column],
+        this._diagScore,
+        this._reverseDiagScore
+      ];
     }
   };
 

@@ -9,8 +9,8 @@
     updateScore: function(line, field) {
       this._scoreTracker.add(line, field);
     },
-    hasWon: function() {
-      return this._scoreTracker.hasWon();
+    hasWon: function(winScore) {
+      return this._scoreTracker.hasWon(winScore);
     },
     symbol: function() {
       return this._symbol;

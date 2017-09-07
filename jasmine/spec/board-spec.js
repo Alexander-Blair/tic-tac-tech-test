@@ -1,7 +1,7 @@
 describe("Board", function() {
   'use strict';
 
-  var board;
+  var board, defaultSize, fieldMock;
 
   function LineMock() {}
 
@@ -11,14 +11,16 @@ describe("Board", function() {
     }
   };
 
-  board = new Board(LineMock);
+  fieldMock = {};
+  defaultSize = 3;
+  board = new Board(LineMock, fieldMock, defaultSize);
 
-  it("is created with a line array of length 3", function() {
-    expect(board.lines().length).toEqual(3);
+  it("is created with a line array of defined length", function() {
+    expect(board.lines().length).toEqual(defaultSize);
   });
 
   it("holds an array of line objects based on the constructor passed in", function() {
-    for(var i = 0; i < 3; i++) {
+    for(var i = 0; i < defaultSize; i++) {
       expect(board.line(i) instanceof LineMock).toBe(true);
     }
   });
@@ -27,8 +29,8 @@ describe("Board", function() {
     it("asks line object to call takeField with field number and symbol", function() {
       var randomLine, randomField;
 
-      randomLine = randomBetween(0, 2);
-      randomField = randomBetween(0, 2);
+      randomLine = randomBetween(0, defaultSize - 1);
+      randomField = randomBetween(0, defaultSize - 1);
 
       board.takeField(randomLine, randomField);
       expect(board.line(randomLine).takeFieldArguments)

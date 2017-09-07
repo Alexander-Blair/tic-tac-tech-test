@@ -5,40 +5,40 @@
     this._board = board;
     this._players = players;
     this._turnCounter = turnCounter;
-    this._gameOver = false;
   }
 
   Game.prototype = {
-    board: function() {
-      return this._board;
-    },
-    player: function(number) {
-      return this._players[number];
-    },
-    currentPlayer: function() {
-      var playerNumber = isEven(this._turnCounter.turnNumber()) ? 0 : 1;
-      return this.player(playerNumber);
-    },
     play: function(lineNumber, fieldNumber) {
-      if(this.isOver()) { return "Game Over!"; }
-      if(this.board().takeField(lineNumber, fieldNumber)) {
-        this.processTurn(lineNumber, fieldNumber);
+      if(this.gameOver()) { return "Game Over!"; }
+      if(this._board.takeField(lineNumber, fieldNumber)) {
+        return this.processTurn(lineNumber, fieldNumber);
       } else { return "This field is taken"; }
-      if(this.isOver()) { return "Player " + this._winner.symbol() + " is the winner!"; }
     },
     processTurn: function(lineNumber, fieldNumber) {
       this.currentPlayer().updateScore(lineNumber, fieldNumber);
-      this.checkIfOver();
+      this.checkIfGameOver();
+      if(this.gameOver()) { return this.endGameMessage(); }
       this._turnCounter.increment();
     },
-    checkIfOver: function() {
-      if(this._turnCounter.turnNumber() >= 8 || this.currentPlayer().hasWon()) {
-        this._winner = this.currentPlayer();
+    checkIfGameOver: function() {
+      if(this.currentPlayer().hasWon(this._board.size()) || this.boardComplete()) {
         this._gameOver = true;
       }
     },
-    isOver: function() {
+    gameOver: function() {
       return this._gameOver;
+    },
+    boardComplete: function() {
+      return this._turnCounter.turnNumber() >= this._board.totalFields() - 1;
+    },
+    currentPlayer: function() {
+      var playerNumber = isEven(this._turnCounter.turnNumber()) ? 0 : 1;
+      return this._players[playerNumber];
+    },
+    endGameMessage: function() {
+      if(this.currentPlayer().hasWon(this._board.size())) {
+        return "Player " + this.currentPlayer().symbol() + " is the winner!";
+      } else { return "Nobody wins!"; }
     }
   };
 

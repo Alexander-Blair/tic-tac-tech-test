@@ -1,10 +1,8 @@
 (function(exports) {
   'use strict';
 
-  var numberOfFields = 3;
-
-  function Line(field) {
-    this._fields = generateLine(field);
+  function Line(field, boardSize) {
+    this._fields = generateLine(field, boardSize);
   }
 
   Line.prototype = {
@@ -19,9 +17,9 @@
     }
   };
 
-  function generateLine(field) {
+  function generateLine(field, boardSize) {
     var line = [];
-    for(var i = 0; i < numberOfFields; i++) {
+    for(var i = 0; i < boardSize; i++) {
       line.push(new field());
     }
     return line;

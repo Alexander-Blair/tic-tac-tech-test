@@ -1,21 +1,23 @@
 describe("Score Tracker", function() {
-  var scoreTracker;
+  var scoreTracker, defaultBoardSize;
 
   function reset() {
-    scoreTracker._rows = {};
-    scoreTracker._columns = {};
-    scoreTracker._diag = 0;
-    scoreTracker._reverseDiag = 0;
+    scoreTracker._rowScores = {};
+    scoreTracker._columnScores = {};
+    scoreTracker._diagScore = 0;
+    scoreTracker._reverseDiagScore = 0;
   }
 
-  scoreTracker = new ScoreTracker(3);
+  defaultBoardSize = 3;
+
+  scoreTracker = new ScoreTracker(defaultBoardSize);
 
   describe("#add", function() {
     describe("incrementing row and column", function() {
       var randomRow, randomColumn;
 
-      randomRow = randomBetween(0, 2);
-      randomColumn = randomBetween(0, 2);
+      randomRow = randomBetween(0, defaultBoardSize - 1);
+      randomColumn = randomBetween(0, defaultBoardSize - 1);
 
       beforeAll(function() {
         scoreTracker.add(randomRow, randomColumn);
@@ -24,16 +26,16 @@ describe("Score Tracker", function() {
       afterAll(function() { reset(); });
 
       it("increments the score for the row", function() {
-        expect(scoreTracker._rows[randomRow]).toEqual(1);
+        expect(scoreTracker._rowScores[randomRow]).toEqual(1);
       });
 
       it("increments the score for the column", function() {
-        expect(scoreTracker._columns[randomColumn]).toEqual(1);
+        expect(scoreTracker._columnScores[randomColumn]).toEqual(1);
       });
     });
 
     describe("incrementing diagonal", function() {
-      var randomDiag = randomBetween(0, 2);
+      var randomDiag = randomBetween(0, defaultBoardSize - 1);
 
       beforeAll(function() {
         scoreTracker.add(randomDiag, randomDiag);
@@ -42,53 +44,53 @@ describe("Score Tracker", function() {
       afterAll(function() { reset(); });
 
       it("increments the score for field on diagonal", function() {
-        expect(scoreTracker._diag).toEqual(1);
+        expect(scoreTracker._diagScore).toEqual(1);
       });
     });
 
     describe("incrementing reverse diagonal", function() {
-      var randomDiag = randomBetween(0, 2);
+      var randomDiag = randomBetween(0, defaultBoardSize - 1);
 
       beforeEach(function() {
-        scoreTracker.add(randomDiag, 2 - randomDiag);
+        scoreTracker.add(randomDiag, (defaultBoardSize - 1) - randomDiag);
       });
 
       afterAll(function() { reset(); });
 
       it("increments the score for field on diagonal", function() {
-        expect(scoreTracker._reverseDiag).toEqual(1);
+        expect(scoreTracker._reverseDiagScore).toEqual(1);
       });
     });
   });
-  describe("#updateWinStatus", function() {
-    var randomNumber = randomBetween(0, 2);
+  describe("#hasWon", function() {
+    var randomNumber = randomBetween(0, defaultBoardSize - 1);
 
     beforeEach(function() { reset(); });
 
     it("does not update win status if no line has reached winning score", function() {
-      scoreTracker.updateWinStatus(randomNumber, randomNumber);
-      expect(scoreTracker.hasWon()).not.toBe(true);
+      scoreTracker.add(randomNumber, randomNumber);
+      expect(scoreTracker.hasWon(defaultBoardSize)).not.toBe(true);
     });
 
-    it("updates win status if a row has reached winning score", function() {
-      scoreTracker._rows[randomNumber] = 3;
+    it("returns true if a row has reached winning score", function() {
+      scoreTracker._rowScores[randomNumber] = defaultBoardSize - 1;
 
-      scoreTracker.updateWinStatus(randomNumber, randomNumber);
-      expect(scoreTracker.hasWon()).toBe(true);
+      scoreTracker.add(randomNumber, randomNumber);
+      expect(scoreTracker.hasWon(defaultBoardSize)).toBe(true);
     });
 
     it("updates win status if a column has reached winning score", function() {
-      scoreTracker._columns[randomNumber] = 3;
+      scoreTracker._columnScores[randomNumber] = defaultBoardSize - 1;
 
-      scoreTracker.updateWinStatus(randomNumber, randomNumber);
-      expect(scoreTracker.hasWon()).toBe(true);
+      scoreTracker.add(randomNumber, randomNumber);
+      expect(scoreTracker.hasWon(defaultBoardSize)).toBe(true);
     });
 
     it("updates win status if diagonal has reached winning score", function() {
-      scoreTracker._diag = 3;
+      scoreTracker._diagScore = defaultBoardSize - 1;
 
-      scoreTracker.updateWinStatus(randomNumber, randomNumber);
-      expect(scoreTracker.hasWon()).toBe(true);
+      scoreTracker.add(randomNumber, randomNumber);
+      expect(scoreTracker.hasWon(defaultBoardSize)).toBe(true);
     });
   });
 });

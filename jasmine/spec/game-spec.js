@@ -1,27 +1,17 @@
 describe("Game", function() {
   'use strict';
 
-  var game, mockBoard, mockPlayerOne, mockPlayerTwo, mockPlayers, mockTurnCounter;
+  var game, mockBoard, mockPlayerOne, mockPlayerTwo, mockPlayers;
+  var defaultBoardSize, mockTurnCounter;
 
   mockPlayerOne = jasmine.createSpyObj('player', ['symbol', 'updateScore', 'hasWon']);
   mockPlayerTwo = jasmine.createSpyObj('player', ['symbol', 'updateScore', 'hasWon']);
   mockPlayers = { 0: mockPlayerOne, 1: mockPlayerTwo };
   mockTurnCounter = jasmine.createSpyObj('turnCounter', ['turnNumber', 'increment']);
-  mockBoard = jasmine.createSpyObj('board', ['takeField', 'isFull']);
+  defaultBoardSize = 3;
+  mockBoard = jasmine.createSpyObj('board', ['takeField', 'totalFields', 'size']);
+
   game = new Game(mockBoard, mockPlayers, mockTurnCounter);
-
-  it("is created with a board", function() {
-    expect(game.board()).toEqual(mockBoard);
-  });
-
-  describe("#player", function() {
-    var randomPlayerNumber = randomBetween(0, 1);
-
-    it("returns player based on the number passed in", function() {
-      expect(game.player(randomPlayerNumber))
-        .toEqual(mockPlayers[randomPlayerNumber]);
-    });
-  });
 
   describe("#currentPlayer", function() {
     var randomEvenNumber, randomOddNumber;
@@ -42,8 +32,8 @@ describe("Game", function() {
   describe("#play", function() {
     var randomLine, randomField;
 
-    randomLine = randomBetween(0, 2);
-    randomField = randomBetween(0, 2);
+    randomLine = randomBetween(0, defaultBoardSize - 1);
+    randomField = randomBetween(0, defaultBoardSize - 1);
 
     beforeAll(function() {
       mockTurnCounter.turnNumber.and.returnValue(0);
@@ -52,8 +42,6 @@ describe("Game", function() {
     });
 
     it("can ask the board to take a specific field", function() {
-      var randomEvenNumber = randomBetween(0, 4) * 2;
-
       expect(mockBoard.takeField)
       .toHaveBeenCalledWith(randomLine, randomField);
     });
@@ -73,27 +61,33 @@ describe("Game", function() {
     });
   });
 
-  describe("#isOver", function() {
+  describe("#gameOver", function() {
     beforeEach(function() {
       game._gameOver = false;
     });
 
     it("returns false if no player has won", function() {
       mockPlayerOne.hasWon.and.returnValue(false);
-      expect(game.isOver()).toEqual(false);
+
+      expect(game.gameOver()).toEqual(false);
     });
 
     it("returns true if a player has won", function() {
-      mockTurnCounter.turnNumber.and.returnValue(0);
+      var randomEvenNumber = randomBetween(0, 4) * 2;
+
+      mockTurnCounter.turnNumber.and.returnValue(randomEvenNumber);
       mockPlayerOne.hasWon.and.returnValue(true);
-      game.checkIfOver();
-      expect(game.isOver()).toEqual(true);
+
+      game.checkIfGameOver();
+      expect(game.gameOver()).toEqual(true);
     });
 
-    it("returns true when ninth turn has been completed", function() {
-      mockTurnCounter.turnNumber.and.returnValue(9);
-      game.checkIfOver();
-      expect(game.isOver()).toEqual(true);
+    it("returns true when all fields have been filled", function() {
+      mockTurnCounter.turnNumber.and.returnValue(Math.pow(defaultBoardSize, 2));
+      mockBoard.totalFields.and.returnValue(Math.pow(defaultBoardSize, 2));
+
+      game.checkIfGameOver();
+      expect(game.gameOver()).toEqual(true);
     });
   });
 });
